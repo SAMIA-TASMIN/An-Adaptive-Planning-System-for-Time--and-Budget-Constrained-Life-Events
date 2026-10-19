@@ -10,7 +10,7 @@ export default function Dashboard({ s, go }) {
       <Title title={`Welcome back, ${s.profile.name}`} sub={`${s.requests.length} new requests and ${active.length} jobs in progress.`}>
         <Badge tone="green">Verified provider</Badge>
       </Title>
-      <Img src="/images/vendors/flowers.jpg" alt="Providers at work" emoji="🧰" className="mb-6 h-40 w-full rounded-xl text-3xl" />
+      <Img src="/images/vendors/flowers.png" alt="Providers at work" emoji="🧰" className="mb-6 h-40 w-full rounded-xl text-3xl" />
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Stat label="New requests" value={s.requests.length} />
         <Stat label="Active jobs" value={active.length} />
