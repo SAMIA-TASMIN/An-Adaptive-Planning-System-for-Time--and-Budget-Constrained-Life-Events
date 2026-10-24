@@ -1,26 +1,13 @@
 {
-    "name": "an-adaptive-planning-system-for-time--and-budget-constrained-life-events",
-    "private": true,
-    "version": "0.0.0",
-    "type": "module",
-    "scripts": {
-        "dev": "vite",
-        "build": "vite build",
-        "lint": "oxlint",
-        "preview": "vite preview"
-    },
-    "dependencies": {
-        "lucide-react": "^1.56.0",
-        "react": "^19.3.0",
-        "react-dom": "^19.3.0"
-    },
-    "devDependencies": {
-        "@tailwindcss/vite": "^4.3.3",
-        "@types/react": "^19.2.18",
-        "@types/react-dom": "^19.2.7",
-        "@vitejs/plugin-react": "^6.1.2",
-        "oxlint": "^1.81.0",
-        "tailwindcss": "^4.3.3",
-        "vite": "^8.3.4"
-    }
+  "name": "planly-full",
+  "private": true,
+  "scripts": {
+    "setup": "npm install && npm install --prefix frontend && npm install --prefix backend",
+    "seed": "npm run seed:demo --prefix backend",
+    "dev": "concurrently -n api,web -c blue,green \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
+    "typecheck": "npm run typecheck --prefix backend && npm run typecheck --prefix frontend"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.1"
+  }
 }
