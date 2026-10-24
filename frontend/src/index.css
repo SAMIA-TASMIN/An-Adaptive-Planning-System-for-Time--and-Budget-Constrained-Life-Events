@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@theme { --radius-xl: .5rem; --radius-2xl: .625rem; --radius-3xl: .875rem; }
+
+/* Palette taken from the illustrations: truck blue, van orange, ink navy. Change colours here only. */
+:root {
+  --page: #f6f8fc; --card: #ffffff; --ink: #14213d; --mute: #5b6785; --line: #dde3ef;
+  --bubble: #e3ecff; --tile: #eef2fa; --accent: #1b5fd9;
+  --primary: #1b5fd9; --on-primary: #ffffff; --gold: #ff8a1f; --stamp: #d9480f;
+}
+.dark {
+  --page: #0e1424; --card: #161e33; --ink: #eaf0ff; --mute: #9aa8c9; --line: #27324f;
+  --bubble: #1c2c52; --tile: #1a2440; --accent: #7fb0ff;
+  --primary: #4a86ff; --on-primary: #07122b; --gold: #ffa94d; --stamp: #ffa94d;
+}
+
+@layer base {
+  *, ::before, ::after { border-color: var(--line); }
+  html { font-size: 15px; scroll-behavior: smooth; }
+  body { margin: 0; font-family: 'Hind Siliguri', system-ui, sans-serif; background: var(--page); color: var(--ink); transition: background-color .3s, color .3s; }
+  h1, h2, h3, .font-extrabold { font-family: 'Familjen Grotesk', 'Hind Siliguri', system-ui, sans-serif; }
+}
+
+.muted { color: var(--mute); }
+.label { font-size: 12px; font-weight: 600; color: var(--mute); }
+
+.plan-row { animation: rowIn .5s both; }
+.stamp-in { animation: stampIn .5s cubic-bezier(.2,1.4,.4,1) both; }
+.word-in { animation: wordIn .45s both; }
+.fade-up { animation: rowIn .5s both; }
+.page-in { animation: pageIn .35s both; }
+.pop { animation: pop .3s both; }
+.float-a { animation: floatY 5s ease-in-out infinite; }
+.float-b { animation: floatY 6.5s ease-in-out -2s infinite; }
+.drift { animation: drift 14s ease-in-out infinite alternate; }
+
+@keyframes rowIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes stampIn { from { opacity: 0; transform: rotate(-8deg) scale(1.8); } to { opacity: .95; transform: rotate(-8deg) scale(1); } }
+@keyframes wordIn { from { opacity: 0; transform: translateY(.4em); } to { opacity: 1; transform: none; } }
+@keyframes pageIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes pop { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: none; } }
+@keyframes floatY { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes drift { from { transform: translate(0, 0) scale(1); } to { transform: translate(30px, 20px) scale(1.12); } }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }

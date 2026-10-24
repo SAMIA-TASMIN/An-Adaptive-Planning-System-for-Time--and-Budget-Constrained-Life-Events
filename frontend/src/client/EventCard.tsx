@@ -1,0 +1,14 @@
+import { Badge } from '../vendor/ui'
+import type { EventItem } from '../types'
+import BaseCard from '../shared/BaseCard'
+import Bar from '../shared/Bar'
+
+// Event card = BaseCard + event data + progress bar.
+export default function EventCard({ e }: { e: EventItem }) {
+  return (
+    <BaseCard image={e.img} emoji={e.icon} alt={e.title} title={e.title} subtitle={e.left}
+      tag={<Badge tone={e.tone}>{e.status}</Badge>} imageClass="h-32 w-full text-3xl">
+      <Bar value={e.progress} className="mt-3" />
+    </BaseCard>
+  )
+}
