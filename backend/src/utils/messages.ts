@@ -1,0 +1,9 @@
+// Every response message lives here, so controllers never repeat strings.
+export const MSG = {
+  FETCHED: 'Fetched successfully', CREATED: 'Created successfully', UPDATED: 'Updated successfully', DELETED: 'Deleted successfully',
+  REGISTERED: 'Account created', LOGGED_IN: 'Signed in',
+  EMAIL_TAKEN: 'That email is already registered', BAD_LOGIN: 'Wrong email or password',
+  NO_TOKEN: 'Please sign in first', BAD_TOKEN: 'Your session is invalid or expired', FORBIDDEN: 'You cannot do that',
+  NOT_FOUND: 'Not found', ALREADY_SUBMITTED: 'This event was already sent for review', BAD_STATUS: 'That status change is not allowed',
+  SUBMITTED: 'Sent for review', APPROVED: 'Approved', REJECTED: 'Rejected', SERVER: 'Something went wrong',
+}
