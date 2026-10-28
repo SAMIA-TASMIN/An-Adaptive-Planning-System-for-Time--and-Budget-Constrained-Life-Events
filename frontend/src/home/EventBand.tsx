@@ -1,4 +1,14 @@
-const EVENTS = ['Moving home', 'Birthday parties', 'Road trips', 'Farewells', 'Celebrations', 'Something else']
+// import { go } from '../router'
+// const EVENTS = [
+//   { icon: '📦', label: 'Moving homes' },
+//   { icon: '🎉', label: 'Birthday parties' },
+//   { icon: '🚙', label: 'Road trips' },
+//   { icon: '🎓', label: 'Farewells' },
+//   { icon: '💍', label: 'Celebrations' },
+//   { icon: '✨', label: 'Your next big thing' },
+// ]
+
+const EVENTS = ['📦Moving home', '🎉Birthday parties', '🚙Road trips', '🎓Farewells', '💍Celebrations', '✨Something else']
 
 export default function EventBand() {
   return (
