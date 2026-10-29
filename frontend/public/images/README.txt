@@ -1,8 +1,8 @@
-Photos used by the site (JPG). If a file is missing, the card shows its emoji tile instead.
+Photos used by the site (JPG, already compressed). If a file is missing, the card shows its emoji tile instead.
 
-packages/moving-crew.jpg   packages/birthday-party.jpg   packages/road-trip.jpg
-packages/packing.jpg       packages/beach-weekend.jpg    packages/farewell.jpg
-vendors/flowers.jpg  (Provider panel banner and Provider role tile on Sign in)
+packages/birthday-party.jpg   packages/farewell.jpg        packages/moving-crew.jpg    packages/packing.jpg
+packages/road-trip.jpg        packages/beach-weekend.jpg   packages/FamilyTour.jpg     packages/wedding.jpg
+packages/propasalForMarry.jpg packages/celebratingDayWithSpecialperson.jpg            packages/homeDecorForFunction.jpg
+packages/occation.jpg         vendors/flowers.png / flowers.jpg
 
-To change a picture, replace the file with the same name. To add one, put it here and set `img: '/images/...'` in
-src/shared/data.js (packages), src/client/data.js (events and bookings) or src/vendor/data.js (provider packages).
+To add an event: put its photo here and add a line to `packages` in backend/src/scripts/seedDemo.js, then run `npm run seed`.

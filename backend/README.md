@@ -1,4 +1,4 @@
-# Planly backend (Express + MongoDB, TypeScript)
+# An Adaptive Planning backend (Express + MongoDB, JavaScript)
 
 ## Rules from the teacher, and where they live
 | Rule | How it is done |
@@ -17,7 +17,7 @@ src/
   config/                          env.js, db.js
   middlewares/                     auth.js (protect, allow), validate.js, error.js
   validators/                      input rules for each module
-  types/                           shared TypeScript types (express.d.ts)
+  types/                           shared JavaScript types (express.d.ts)
   models/                          user, package, event, task, booking, plan, review
   utils/                           shared helpers (DRY)
   modules/
@@ -33,7 +33,7 @@ src/
 1. Install MongoDB (or use a free MongoDB Atlas cluster).
 2. `npm install`
 3. Copy `.env.example` to `.env` and fill it in.
-4. `npm run seed:admin` (creates the admin login), then `npm run dev` (runs the TypeScript directly with tsx)
+4. `npm run seed:admin` (creates the admin login), then `npm run dev` (runs the JavaScript directly with tsx)
    - `npm run typecheck` checks the types, `npm run build` compiles to `dist/`, `npm start` runs the compiled code
 5. Test: http://localhost:5000/api/health
 

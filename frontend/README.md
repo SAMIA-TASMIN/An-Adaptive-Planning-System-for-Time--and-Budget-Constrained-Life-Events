@@ -1,4 +1,4 @@
-# Planly
+# An Adaptive Planning (frontend)
 
 1. Open this folder in VS Code.
 2. In the terminal run:  npm install

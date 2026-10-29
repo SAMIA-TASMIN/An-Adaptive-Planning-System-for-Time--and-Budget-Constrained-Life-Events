@@ -42,3 +42,11 @@
 @keyframes floatY { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 @keyframes drift { from { transform: translate(0, 0) scale(1); } to { transform: translate(30px, 20px) scale(1.12); } }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+/* Print only the payment slip (Print / Save PDF button). */
+@media print {
+  body * { visibility: hidden; }
+  #slip, #slip * { visibility: visible; }
+  #slip { position: fixed; inset: 0 auto auto 0; width: 100%; box-shadow: none; border: 0; }
+  .no-print { display: none !important; }
+}

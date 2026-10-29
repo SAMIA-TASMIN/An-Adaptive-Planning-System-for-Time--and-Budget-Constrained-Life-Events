@@ -1,0 +1,10 @@
+import Package from '../../../models/package.model.js'
+import { owned } from '../../../utils/crud.js'
+const mine = owned(Package, 'provider')
+const FIELDS = ['title', 'category', 'price', 'duration', 'description', 'image', 'isActive']
+export default {
+  list: mine.list,
+  create: (providerId, data) => mine.create(providerId, data, FIELDS, { status: 'pending' }), // an admin must approve it
+  update: (providerId, id, data) => mine.update(providerId, id, data, FIELDS),
+  remove: mine.remove,
+}
