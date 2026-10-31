@@ -16,6 +16,7 @@ export const protect = asyncHandler(async (req, _res, next) => {
   }
   const user = await User.findById(decoded.id)
   if (!user) throw new ApiError(HTTP.UNAUTHORIZED, MSG.BAD_TOKEN)
+  if (user.isBlocked()) throw new ApiError(HTTP.FORBIDDEN, `${MSG.ACCOUNT_BLOCKED}${user.statusNote ? `: ${user.statusNote}` : ''}`)
   req.user = user
   next()
 })

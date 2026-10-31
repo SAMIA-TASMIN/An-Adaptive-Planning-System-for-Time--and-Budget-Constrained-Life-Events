@@ -15,6 +15,7 @@ const PAY = {
   partial: ['amber', 'Part paid'],
   paid: ['green', 'Paid in full'],
   refund_pending: ['red', 'Refund pending'],
+  refunded: ['green', 'Refunded'],
 }
 
 export default function Bookings() {
@@ -25,7 +26,7 @@ export default function Bookings() {
   const [open, setOpen] = useState(null) // booking whose payment history is expanded
   const list = data || []
 
-  const live = list.filter((b) => b.payStatus !== 'refund_pending')
+  const live = list.filter((b) => !['refund_pending', 'refunded'].includes(b.payStatus))
   const total = live.reduce((s, b) => s + b.total, 0)
   const paid = live.reduce((s, b) => s + b.paid, 0)
   const due = live.reduce((s, b) => s + b.due, 0)
@@ -98,6 +99,7 @@ export default function Bookings() {
                       ))}
                     </ul>
                   )}
+                  {b.payStatus === 'refunded' && <p className="mt-3 rounded-lg bg-[#e6f6ee] p-3 text-xs text-[#2f7f5c]">Your {taka(b.paid)} was refunded.</p>}
                   {b.payStatus === 'refund_pending' && <p className="mt-3 rounded-lg bg-[#fff0d9] p-3 text-xs text-[#9a6118]">The provider declined this booking. Your {taka(b.paid)} will be refunded.</p>}
                 </Card>
               )

@@ -1,14 +1,14 @@
 import { go } from '../router'
 import { setCategory } from '../shared/filter'
-// [icon, label shown, marketplace category it opens]
+// [icon, label shown, marketplace group it opens]
 const EVENTS = [
   ['🎂', 'Birthday parties', 'Birthday'],
   ['🎓', 'Farewells', 'Farewell'],
-  ['💍', 'Weddings & proposals', 'Other'],
-  ['🏡', 'Home decor', 'Other'],
-  ['📦', 'Moving home', 'Other'],
-  ['🚙', 'Trips & tours', 'Other'],
-  ['✨', 'Something else', 'All'],
+  ['💍', 'Weddings & proposals', 'Wedding'],
+  ['🏡', 'Home decor', 'HomeDecor'],
+  ['📦', 'Moving home', 'Moving'],
+  ['🚙', 'Trips & tours', 'Trips'],
+  ['✨', 'Something else', 'Else'],
 ]
 export default function EventBand() {
   return (

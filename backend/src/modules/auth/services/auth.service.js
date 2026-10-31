@@ -19,6 +19,7 @@ export default {
   async login({ email, password }) {
     const user = await User.findOne({ email }).select('+password')
     if (!user || !(await user.comparePassword(password))) throw new ApiError(HTTP.UNAUTHORIZED, MSG.BAD_LOGIN)
+    if (user.isBlocked()) throw new ApiError(HTTP.FORBIDDEN, `${MSG.ACCOUNT_BLOCKED}${user.statusNote ? `: ${user.statusNote}` : ''}`)
     return result(user)
   },
 }

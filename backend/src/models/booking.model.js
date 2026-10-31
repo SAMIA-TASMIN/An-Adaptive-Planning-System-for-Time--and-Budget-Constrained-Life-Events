@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose'
 import ApiError from '../utils/ApiError.js'
-import { charge, receiptNumber } from '../utils/gateway.js'
+import { charge, receiptNumber, refund } from '../utils/gateway.js'
 import { HTTP } from '../utils/httpStatus.js'
 import { MSG } from '../utils/messages.js'
 import Package from './package.model.js'
@@ -36,6 +36,8 @@ const schema = new Schema(
     paid: { type: Number, default: 0 },
     payments: [paymentSchema],
     receiptNo: String, // created when the booking is paid in full
+    // Filled by the admin when a declined, paid booking is refunded.
+    refund: { amount: Number, reference: String, at: Date, note: String },
     note: String,
     status: { type: String, enum: Object.keys(NEXT), default: 'requested' },
     progress: { type: Number, min: 0, max: 100, default: 0 },
@@ -45,9 +47,11 @@ const schema = new Schema(
 
 // What is still to pay, and a one-word summary the pages can show.
 schema.virtual('due').get(function due() {
+  if (this.status === 'declined') return 0 // nothing more to pay on a declined booking
   return Math.max(0, (this.price || 0) - (this.paid || 0))
 })
 schema.virtual('paymentStatus').get(function paymentStatus() {
+  if (this.refund?.at) return 'refunded'
   if (this.status === 'declined' && this.paid > 0) return 'refund_pending'
   if (this.paid <= 0) return 'unpaid'
   return this.paid >= this.price ? 'paid' : 'partial'
@@ -78,7 +82,7 @@ schema.methods.pay = async function pay({ method, wallet, amount }) {
 // A client hires an approved, active package and pays in the same step (an advance or the full price).
 // The booking is only saved if the payment goes through, so there are no unpaid orphan bookings.
 schema.statics.request = async function request(clientId, { package: packageId, event, note, method, wallet, amount }) {
-  const pkg = await Package.findOne({ _id: packageId, ...Package.publicFilter() })
+  const pkg = await Package.findOne({ _id: packageId, ...(await Package.publicFilter()) })
   if (!pkg) throw new ApiError(HTTP.NOT_FOUND, MSG.NOT_FOUND)
   const booking = new this({ client: clientId, provider: pkg.provider, package: pkg._id, event, note, price: pkg.price })
   return booking.pay({ method, wallet, amount })
@@ -90,6 +94,24 @@ schema.methods.moveTo = function moveTo(next) {
   this.status = next
   if (next === 'delivered') this.progress = 100
   return this.save()
+}
+
+// Admin: record that the money of a declined booking went back to the client.
+schema.methods.markRefunded = async function markRefunded(note) {
+  if (this.refund?.at) throw new ApiError(HTTP.CONFLICT, MSG.ALREADY_REFUNDED)
+  if (this.status !== 'declined' || this.paid <= 0) throw new ApiError(HTTP.CONFLICT, MSG.NOTHING_TO_REFUND)
+  const { reference } = await refund({ amount: this.paid })
+  this.refund = { amount: this.paid, reference, at: new Date(), note: String(note ?? '').trim() }
+  return this.save()
+}
+
+// The same five payment words the pages show, as database filters (for the admin lists).
+export const PAYMENT_FILTERS = {
+  unpaid: { paid: { $lte: 0 } },
+  partial: { status: { $ne: 'declined' }, paid: { $gt: 0 }, $expr: { $lt: ['$paid', '$price'] } },
+  paid: { status: { $ne: 'declined' }, paid: { $gt: 0 }, $expr: { $gte: ['$paid', '$price'] } },
+  refund_pending: { status: 'declined', paid: { $gt: 0 }, 'refund.at': { $exists: false } },
+  refunded: { 'refund.at': { $exists: true } },
 }
 
 export default model('Booking', schema)

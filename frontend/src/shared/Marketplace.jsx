@@ -5,12 +5,16 @@ import Status from './Status'
 import useFetch from '../api/useFetch'
 import { getPackages } from '../api/packages'
 import { getCategory, setCategory } from './filter'
-// [category sent to the backend, label shown]. Birthday and Farewell are alone; every other event is under Other.
+// [event group sent to the backend, label shown]. A package can appear under more than one group.
 const CHIPS = [
   ['All', 'All'],
   ['Birthday', 'Birthday Party'],
   ['Farewell', 'Farewell'],
-  ['Other', 'Other Events'],
+  ['Wedding', 'Wedding & Proposal'],
+  ['HomeDecor', 'Home Decor'],
+  ['Moving', 'Moving Home'],
+  ['Trips', 'Trips & Tour'],
+  ['Else', 'Something Else'],
 ]
 // Used by the public site ("Sign in to hire") and the client panel ("Hire"). Data comes from the backend.
 export default function Marketplace({ cta = 'Sign in to hire', wrap = true }) {

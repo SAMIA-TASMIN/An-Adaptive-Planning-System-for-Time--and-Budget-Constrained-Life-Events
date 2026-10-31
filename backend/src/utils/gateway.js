@@ -24,3 +24,8 @@ export const receiptNumber = () => {
   const day = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`
   return `RCP-${day}-${code(6)}`
 }
+
+// Sandbox refund: it only creates a reference number. For real money, call the bKash / Nagad refund API here.
+export async function refund() {
+  return { reference: `RF${code(8)}` }
+}

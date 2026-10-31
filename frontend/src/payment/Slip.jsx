@@ -5,7 +5,7 @@ import { WalletBadge, WALLETS, when } from './brand'
 
 // The payment slip shown when a booking is paid in full. "Print / Save PDF" prints only this slip
 // (see the @media print rules in index.css).
-//   b = { id, pack, by, total, paid, due, receiptNo, payments: [{ method, wallet, trxId, amount, paidAt }] }
+//   b = { id, pack, by, clientName (admin view), total, paid, due, receiptNo, payments: [{ method, wallet, trxId, amount, paidAt }] }
 export default function Slip({ b, onClose }) {
   const user = getUser()
   const last = b.payments[b.payments.length - 1]
@@ -32,7 +32,7 @@ export default function Slip({ b, onClose }) {
           <span className="stamp-in pointer-events-none absolute top-16 right-6 rounded-lg border-4 border-[#2f7f5c] px-3 py-1 text-2xl font-extrabold tracking-widest text-[#2f7f5c]">PAID</span>
 
           <dl className="mt-6 grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
-            <div><dt className="text-xs text-[#5b6785]">Billed to</dt><dd className="font-semibold">{user?.name || 'Client'}</dd></div>
+            <div><dt className="text-xs text-[#5b6785]">Billed to</dt><dd className="font-semibold">{b.clientName || user?.name || 'Client'}</dd></div>
             <div><dt className="text-xs text-[#5b6785]">Provider</dt><dd className="font-semibold">{b.by}</dd></div>
             <div><dt className="text-xs text-[#5b6785]">Service</dt><dd className="font-semibold">{b.pack}</dd></div>
             <div><dt className="text-xs text-[#5b6785]">Booking ref</dt><dd className="font-semibold">{String(b.id).slice(-8).toUpperCase()}</dd></div>

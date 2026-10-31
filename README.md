@@ -12,12 +12,12 @@ vercel.json build settings + /api rewrite
 ## Run locally
 1. Copy `.env.example` to `backend/.env` and fill `MONGO_URI` and `JWT_SECRET`.
 2. `npm install` (once, from the repo root; installs frontend and backend)
-3. `npm run seed` (demo accounts and 12 packages)
+3. `npm run seed` (demo accounts, packages and sample bookings)
 4. `npm run dev`, then open http://localhost:5173
 
-## Deploy on Vercel
+## Deploy on Vercel (short version, full guide in `DEPLOY-VERCEL.md`)
 1. MongoDB Atlas (free): create a cluster and a database user. Under Network Access add `0.0.0.0/0`.
-   Copy the connection string and end it with `/adaptive-planning`.
+   Copy the connection string and put the database name `an-adaptive-planning` before the `?`.
 2. Push this folder to GitHub (`.env` is git-ignored).
 3. Vercel > Add New Project > import the repo. Keep Root Directory as the repo root; `vercel.json` does the rest.
 4. Environment Variables: `MONGO_URI`, `JWT_SECRET` (long random text), `JWT_EXPIRES` = `7d`.
@@ -31,13 +31,34 @@ vercel.json build settings + /api rewrite
 | Provider | swiftmove@adaptiveplanning.test | provider123 |
 | Admin | admin@adaptiveplanning.test | admin123 |
 
-Change these passwords on a public deployment.
+Change these passwords on a public deployment (the admin one with `ADMIN_PASSWORD=... npm run seed`).
 
-## Marketplace events
-Twelve packages, one photo each (`frontend/public/images/packages/`).
-- **Birthday Party** shows only birthday packages. **Farewell** shows only farewell packages.
-- **Other Events** shows all remaining events together: wedding, proposal, special-day celebration, home decor, special-occasion venue, family tour, moving, packing, road trip, Cox's Bazar.
-- To add an event: add a line to `packages` in `backend/src/scripts/seedDemo.js` (or create a package as a provider) and run `npm run seed`.
+## Marketplace groups
+The Marketplace chips (and the "What we plan" buttons on the home page) are: **All, Birthday Party, Farewell, Wedding & Proposal, Home Decor, Moving Home, Trips & Tour, Something Else**.
+One package can sit in more than one group (the `events` list of a package):
+
+| Group | Packages |
+|---|---|
+| Wedding & Proposal | Wedding ceremony package, Proposal setup |
+| Home Decor | Home decor for functions, Special occasion venue decor, Packing service, Moving crew, 2 rooms |
+| Moving Home | Packing service, Moving crew, 2 rooms |
+| Trips & Tour | Cox's Bazar weekend, Road trip planner, Family tour package |
+| Something Else | Celebrate a day with someone special, Special occasion venue decor |
+| Birthday Party / Farewell | Birthday party kit / Farewell setup |
+
+To change a group, edit the `events` list of that package in `backend/src/scripts/seedDemo.js` and run `npm run seed` again. A provider chooses the groups when creating a package (Vendor > Packages).
+
+## What the admin can do
+| Tab | Work |
+|---|---|
+| Overview | What is waiting (plans, packages, providers, refunds) and the money (received, still to collect, booked) |
+| Plan approvals | Approve or reject a client's plan, with a comment |
+| Packages | Approve a provider's package, reject it with a reason, or suspend (take down) a live one |
+| Providers | Approve a new provider, reject, suspend or activate again. A suspended provider cannot sign in and their packages are hidden |
+| Bookings | Every booking with client, provider, total / paid / due, payment status; open one to see every transaction, the receipt, and record a refund for a declined paid booking |
+| Payments | Money received, still to collect, refund pending, money kept, bKash and Nagad totals, and a ledger of every transaction (search by transaction ID) |
+
+Order of approval: approve the **provider** first, then their **packages** (the backend refuses the other order).
 
 ## Payments (bKash and Nagad)
 - Hiring a package opens a checkout: choose bKash or Nagad, enter the wallet number, choose the amount (full, 20% advance, or any amount), then the verification code and PIN. The booking is created only when the first payment succeeds.

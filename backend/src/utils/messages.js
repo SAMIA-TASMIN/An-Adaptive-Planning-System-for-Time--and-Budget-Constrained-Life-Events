@@ -20,5 +20,12 @@ export const MSG = {
   BOOKING_CLOSED: 'This booking was declined, so it cannot be paid',
   ALREADY_PAID: 'This booking is already fully paid',
   PAID: 'Payment received',
+  NEED_REASON: 'Please write the reason, so the other person can see why',
+  PROVIDER_NOT_ACTIVE: 'Approve this provider first, then approve their package',
+  ACCOUNT_BLOCKED: 'This account is not allowed to sign in',
+  ALREADY_DECIDED: 'This was already decided',
+  NOTHING_TO_REFUND: 'Only a declined booking with money paid can be refunded',
+  ALREADY_REFUNDED: 'This booking was already refunded',
+  REFUNDED: 'Refund recorded',
   SERVER: 'Something went wrong',
 }
